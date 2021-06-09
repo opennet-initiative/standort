@@ -31,8 +31,8 @@ on-function set_opennet_id 5.52
 #concept for switching + routing
 # VLAN IDs
 #  1: LAN    - LAN1+LAN2+LAN3 - br-lan (172.16.0.1/24)   - use for management access
-#  2: MESH_1 - WAN            - on_eth_0 (192.168.5.52)  - bridge_bauamt (192.168.5.53)
-#  3: MESH_2 - LAN4           - on_eth_1 (192.168.15.52) - bridge_warnemuende (192.168.5.54)
+#  2: MESH_1 - WAN            - on_eth_0 (192.168.5.52)  - bridge_bauamt_z10  (192.168.5.53)
+#  3: MESH_2 - LAN4           - on_eth_1 (192.168.15.52) - bridge_warnemuende (192.168.5.55)
 
 #configure switching
 # VLAN 1 (preconfigured)
@@ -93,7 +93,7 @@ uci set firewall.@nat[0].src='on_mesh'
 uci set firewall.@nat[0].target='SNAT'
 uci set firewall.@nat[0].dest_ip='192.168.5.53'
 uci set firewall.@nat[0].snat_ip='192.168.5.52'  # via on_eth_0
-uci set firewall.@nat[0].name='bridge-bauamt'
+uci set firewall.@nat[0].name='bridge-bauamt'  # todo change to 'bridge-z10'
 uci set firewall.@nat[0].proto='all'
 uci add firewall nat
 uci set firewall.@nat[1].src='on_mesh'

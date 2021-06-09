@@ -1,0 +1,34 @@
+== Hardware
+
+Location: db0hro
+
+* Model: Mikrotik LHG 5 ac (RBLHGG-5acD)
+* OS: RouterOS 6.48.3
+
+Location: warnemuende
+
+* Model: ???
+
+
+== Configuration
+
+=== Concept: DH0HRO <-> Warnemuende
+
+Location:     DB0HRO			          Warnmuende
+------------------------------------------------
+Hostname:     bridge-db0hro-wrnmd	  bridge-wrnmd
+Password:     ...
+IP:           192.168.5.55/16    	  192.168.5.??
+Default Gw:   192.168.15.52         192.168.????
+DNS:          192.168.0.247         192.168.0.247
+NTP:          192.168.0.247         192.168.0.247
+Syslog:       -
+
+Mode:         PTP Bridge AP [1]		  (PTP Bridge CPE)
+SSID:         R13-bb-nord.on-i.de   R13-bb-nord.on-i.de
+Frequency:    5500 (100)            dyn.
+ChanWidth:    20                    dyn.
+Country:      Germany               Germany
+Installation: outdoor               outdoor
+
+[1] Mode "PTP Bridge AP" is intended for a bridge and only allows one neighbor on wireless link.
