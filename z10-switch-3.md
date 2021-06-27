@@ -7,7 +7,7 @@ Port | VLAN | PoE | device                     | comment
    1 | 11   | on  | bridge-z10-db0hro          |  
    2 | 12   | on  | reserved for bridge        |
    3 | 13   | on  | reserved for bridge        |
-   4 | 14   | on  | reserved for mesh node     |
+   4 |  1   | on  | reserved for mesh node     |
    5 |  1   | on  | reserved for mesh node     |
    6 |  1   | on  | reserved for mesh node     |
    7 |  1   | on  | reserved for mesh node     |
@@ -22,10 +22,7 @@ EdgeSwitch 10XP
 Native firmware: v1.3.1
 
 User: ubnt
-
-Password change
-* password needs more then 8 characters
-* Standardpasswort 2x concatenated
+Pwd: Standardpasswort 2x concatenated
 
 Device name: switch-z10-3
 
