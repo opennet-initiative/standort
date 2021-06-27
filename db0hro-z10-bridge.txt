@@ -12,9 +12,7 @@ Location: db0hro
 
 Location:     DB0HRO			          Z10
 --------------------------------------------------------
-Hostname:     bridge-db0hro-bauamt	bridge-z10-db0hro
-              (todo: change to
-               'bridge-db0hro-z10')
+Hostname:     bridge-db0hro-Z10   	bridge-z10-db0hro        <-
 Password:     ...
 IP:           192.168.5.53 	    	  192.168.5.54
 Netmask:      255.255.0.0           255.255.0.0
@@ -23,11 +21,11 @@ DNS:          192.168.0.247         192.168.0.247
 NTP:          192.168.0.247         192.168.0.247
 Syslog:       -
 
-Mode:         PTP Bridge AP [1]		  PTP Bridge CPE
-SSID:         R13-bb-sued.on-i.de   R13-bb-sued.on-i.de
-Frequency:    5580 (108)            dyn.
-ChanWidth:    20                    dyn.
-Country:      Germany               Germany
+Mode:         PTP BridgeCPE      	  PTP Bridge AP [1]	    
+SSID:         Z10-R13-ptp.on-i.de   Z10-R13-ptp.on-i.de
+Frequency:    auto                  auto
+ChanWidth:    20                    20
+Country:      germany 5.8 fixed p-p germany 5.8 fixed p-p
 Installation: outdoor               outdoor
 
 [1] Mode "PTP Bridge AP" is intended for a bridge and only allows one neighbor on wireless link.
