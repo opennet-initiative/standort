@@ -202,6 +202,25 @@ uci set firewall.@nat[-1].snat_ip="${ON_IF_IP}"
 uci set firewall.@nat[-1].name="${DEVICE_NAME}"
 uci set firewall.@nat[-1].proto='all'
 
+# EdgeSwitch - 192.168.5.57/16 ; GW: 192.168.5.56 ; VLAN: 1
+DEVICE_NAME="switch-z10-4"
+DEVICE_IP="192.168.5.57"
+ON_IF="on_eth_0"
+ON_IF_IP="192.168.5.56"
+uci add olsrd Hna4
+uci set olsrd.@Hna4[-1].netmask='255.255.255.255'
+uci set olsrd.@Hna4[-1].netaddr="${DEVICE_IP}"
+uci add network route
+uci set network.@route[-1].target="${DEVICE_IP}"
+uci set network.@route[-1].netmask='255.255.255.255'
+uci set network.@route[-1].interface="${ON_IF}"
+uci add firewall nat
+uci set firewall.@nat[-1].src='on_mesh'
+uci set firewall.@nat[-1].target='SNAT'
+uci set firewall.@nat[-1].dest_ip="${DEVICE_IP}"
+uci set firewall.@nat[-1].snat_ip="${ON_IF_IP}"
+uci set firewall.@nat[-1].name="${DEVICE_NAME}"
+uci set firewall.@nat[-1].proto='all'
 
 
 
