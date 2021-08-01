@@ -8,6 +8,12 @@ Location: db0hro
 
 == Configuration
 
+Disable service "user-manager" because it fills our log with messages like:
+```
+05:44:38 manager,error,info,debug Running out of disk space, when minimum 500kB is reached UM will be stopped! 
+```
+The service user-manager provides a radius server as user database. But we don't need this.
+
 === Concept: DH0HRO <-> Z10
 
 Location:     DB0HRO			          Z10
