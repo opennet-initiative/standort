@@ -220,8 +220,13 @@ uci set firewall.@nat[-1].snat_ip="${ON_IF_IP}"
 uci set firewall.@nat[-1].name="${DEVICE_NAME}"
 uci set firewall.@nat[-1].proto='all'
 
+uci commit
 
+# enable NTP server so Mikrotik Router has time source
+uci set system.ntp.enable_server='1'
+uci commit
+/etc/init.d/sysntpd restart
 
 #todo ssh cert
 
-uci commit
+
