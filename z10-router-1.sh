@@ -18,6 +18,9 @@ opkg-oni install on-monitoring on-goodies tcpdump-mini
 
 # as of today (May 2021) olsrd2 is always deactivated by default. We enable it.
 on-function enable_on_module on-olsr2
+# we need Internet for LoRaWan
+on-function enable_on_module on-openvpn
+
 
 # ER-X has the following ports:
 # eth0 = WAN
