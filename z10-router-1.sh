@@ -71,11 +71,6 @@ on-function enable_on_module on-openvpn
 #    7 |  1   | general mesh network |
 #    8 | 1-50 | EdgerRouter-X        | trunk port to EdgeRouter-X
 
-#
-# bridge-z10-db0hro
-#  IP: 192.168.5.54/16 ; GW: 192.168.25.56 ; VLAN: 12
-#
-
 
 #configure switching
 # VLAN 1 (preconfigured) -> VLAN 99
