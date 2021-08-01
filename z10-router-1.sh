@@ -11,7 +11,7 @@
 passwd
 
 # set IP
-on-function set_opennet_id 5.56
+on-function set_opennet_id 1.245
 
 # install monitoring (we need Internet connection for this step, therefore connect port eth0 to Internet)
 opkg-oni install on-monitoring on-goodies tcpdump-mini
@@ -45,17 +45,17 @@ on-function enable_on_module on-olsr2
 # VLAN ID| VLAN Name (IP)          | phy. interface | description
 # -------|-------------------------|----------------|------------
 #      99| br-lan (172.16.0.1/24)  | LAN3+LAN4      | use for management access
-#       1| on_eth_0 (192.168.5.56) | WAN+LAN1+LAN2  | general mesh VLAN
-#      11| on_eth_1 (192.168.15.56)| WAN            | connect one single bridge
-#      12| on_eth_2 (192.168.25.56)| WAN            | connect one single bridge
-#      13| on_eth_3 (192.168.35.56)| WAN            | connect one single bridge
+#       1| on_eth_0 (192.168.1.245)| WAN+LAN1+LAN2  | general mesh VLAN
+#      11| on_eth_1 (192.168.11.245)| WAN            | connect one single bridge
+#      12| on_eth_2 (192.168.21.245)| WAN            | connect one single bridge
+#      13| on_eth_3 (192.168.31.245)| WAN            | connect one single bridge
 #
 # WAN (eth0) is tagged with all VLANs except VLAN 99.
 # All other ports are untagged.
 
 #
 # EdgeSwitch
-#  IP 192.168.5.58/16 ; GW: 192.168.5.56 ; VLAN: 1
+#  IP 192.168.5.58/16 ; GW: 192.168.1.245 ; VLAN: 1
 #
 # Port | VLAN | device               | comment
 # -----|------|----------------------|--------
@@ -129,7 +129,7 @@ uci set network.on_eth_${ON_ID}.netmask='255.255.0.0'
 uci set network.on_eth_${ON_ID}.defaultroute='0'
 uci set network.on_eth_${ON_ID}.peerdns='0'
 uci set network.on_eth_${ON_ID}.ifname="eth0.1${ON_ID}"
-uci set network.on_eth_${ON_ID}.ipaddr="192.168.${ON_ID}5.56"
+uci set network.on_eth_${ON_ID}.ipaddr="192.168.${ON_ID}1.245"
 
 uci add_list firewall.@zone[2].network="on_eth_${ON_ID}"
 
@@ -147,7 +147,7 @@ uci set network.on_eth_${ON_ID}.netmask='255.255.0.0'
 uci set network.on_eth_${ON_ID}.defaultroute='0'
 uci set network.on_eth_${ON_ID}.peerdns='0'
 uci set network.on_eth_${ON_ID}.ifname="eth0.1${ON_ID}"
-uci set network.on_eth_${ON_ID}.ipaddr="192.168.${ON_ID}5.56"
+uci set network.on_eth_${ON_ID}.ipaddr="192.168.${ON_ID}1.245"
 
 uci add_list firewall.@zone[2].network="on_eth_${ON_ID}"
 
@@ -162,11 +162,11 @@ uci add_list olsrd2.@interface[0].name="on_eth_${ON_ID}"
 # make connected non-OLSR devices available in mesh network
 #
 
-# EdgeSwitch - 192.168.5.58/16 ; GW: 192.168.5.56 ; VLAN: 1
+# EdgeSwitch - 192.168.5.58/16 ; GW: 192.168.1.245 ; VLAN: 1
 DEVICE_NAME="switch-z10-3"
 DEVICE_IP="192.168.5.58"
 ON_IF="on_eth_0"
-ON_IF_IP="192.168.5.56"
+ON_IF_IP="192.168.1.245"
 uci add olsrd Hna4
 uci set olsrd.@Hna4[-1].netmask='255.255.255.255'
 uci set olsrd.@Hna4[-1].netaddr="${DEVICE_IP}"
@@ -182,11 +182,11 @@ uci set firewall.@nat[-1].snat_ip="${ON_IF_IP}"
 uci set firewall.@nat[-1].name="${DEVICE_NAME}"
 uci set firewall.@nat[-1].proto='all'
 
-# bridge-z10-db0hro - IP: 192.168.5.54/16 ; GW: 192.168.15.56 ; VLAN: 11
+# bridge-z10-db0hro - IP: 192.168.5.54/16 ; GW: 192.168.11.245 ; VLAN: 11
 DEVICE_NAME="bridge-z10-db0hro"
 DEVICE_IP="192.168.5.54"
 ON_IF="on_eth_1"
-ON_IF_IP="192.168.15.56"
+ON_IF_IP="192.168.11.245"
 uci add olsrd Hna4
 uci set olsrd.@Hna4[-1].netmask='255.255.255.255'
 uci set olsrd.@Hna4[-1].netaddr="${DEVICE_IP}"
@@ -206,7 +206,7 @@ uci set firewall.@nat[-1].proto='all'
 DEVICE_NAME="switch-z10-4"
 DEVICE_IP="192.168.5.57"
 ON_IF="on_eth_0"
-ON_IF_IP="192.168.5.56"
+ON_IF_IP="192.168.1.245"
 uci add olsrd Hna4
 uci set olsrd.@Hna4[-1].netmask='255.255.255.255'
 uci set olsrd.@Hna4[-1].netaddr="${DEVICE_IP}"

@@ -22,9 +22,9 @@ Hostname:     bridge-db0hro-Z10   	bridge-z10-db0hro        <-
 Password:     ...
 IP:           192.168.5.53 	    	  192.168.5.54
 Netmask:      255.255.0.0           255.255.0.0
-Default Gw:   192.168.5.52          192.168.15.56
+Default Gw:   192.168.5.52          192.168.11.245
 DNS:          192.168.0.247         192.168.0.247
-NTP:          192.168.0.247         192.168.0.247
+NTP:          192.168.0.247         192.168.11.245
 Syslog:       -
 
 Mode:         PTP BridgeCPE      	  PTP Bridge AP [1]	    
