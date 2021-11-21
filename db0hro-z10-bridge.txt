@@ -34,4 +34,5 @@ ChanWidth:    20                    20
 Country:      germany 5.8 fixed p-p germany 5.8 fixed p-p
 Installation: outdoor               outdoor
 
-[1] Mode "PTP Bridge AP" is intended for a bridge and only allows one neighbor on wireless link.
+[1] Mode "PTP Bridge AP" is intended for a bridge and only allows one neighbor on wireless link. Setting configures "mode = bridge".
+    
