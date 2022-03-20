@@ -1,47 +1,55 @@
-= Configuration of MikroTik devices
+# Configuration of MikroTik devices
 
-== Firmware Update
+## Typical Configurations
 
-After boot AP has IP 192.168.88.1 with DHCP server active.
+### Mikrotik mANTBox 15s
 
-Now we need to update the firmware.
+There are at least two possibilities to access a new mANTBox:
+* Use [WinBox Tool](https://wiki.mikrotik.com/wiki/Manual:Winbox). This tool scan for devices in the network and you can access the configuration interface.
+* DHCP Server: When booting the mANTBox an IP address via DHCP is requested. You need to have a DHCP server in the network and find the IP of the device. Maybe you want to start a local dhcp server via `sudo dnsmasq -i MY_ETH_INTERFACE_NAME --dhcp-range=192.168.1.100,192.168.1.200 -d -p0 -K --log-dhcp --bootp-dynamic`
 
-Note: LHG device is intended for outdoor bridge. Therefore you have the following restrictions:
-* no indoor channel can be configured
-* normal AccessPoint mode is not possible (would need RouterOS license level 4)
+We assume here that we want to configure the device as Access Point. Base configuration can be done via:
 
+* Quick Set: `PTP Bridged AP`
+* Network Name: ...enter SSID here...
+* Frequency: set to `auto`
+* Band: select 5GHz-A/N/AC
+* Channel With: 20MHz
+* Country: germany
+* Address Acquisition: Static
+* IP Address: ...
+* Netmask: 255.255.0.0 (/16)
+* Gateway: ...
+* DNS: ...
+* Router Identity: APx.Y
+* Password: ...
 
-=== Connect LHG to a network with internet connection for firmware update
+If you now press *OK* or *Apply* the wifi interface will not come up immediately because it will first scan some minutes (up to 10min) for radar (DFS). You can see the current status in
 
-We configure the LAN interface with static IP in our home network.
+* WebFig -> Interfaces -> wlan1 -> now check status (running ap vs. detecting radar) in below bar
+* via CLI: ` /interface wireless monitor wlan1`
 
-* WebFig -> IP -> DNS -> Server : insert IP of your DNS server
-* WebFig -> IP -> Routes -> Routes -> Add New
-  * Dst. Address: 0.0.0.0/0
-  * Gateway: IP_OF_YOUR_GATEWAY
-  * OK
-* WebFig -> IP -> Addresses -> select *ether1*
-  * Address: FREE_IP_IN_YOUR_HOME_NETWORK
-  * OK
-
-Now you lose connection to the device because it has a new IP.
-Connect the LHD via cable to you home network.
-You should now be able to ping FREE_IP_IN_YOUR_HOME_NETWORK.
-
-=== Update firmware
-
-* ssh admin@FREE_IP_IN_YOUR_HOME_NETWORK
-* check whether new firmware available: /system package update check-for-updates
-* if available then download: /system package update download
-* reboot to make upgrade available: /system reboot
-* (wait for 3min) after reboot log in via SSH again
-* now we should see the new firmware version as "upgrade firmware": /system routerboard print
-* do upgrade: /system routerboard upgrade
-* final reboot: /system reboot
-* now it is a good moment to revert all settings to factory reset via: /system reset-configuration
+In addition we need to change the following:
+* change from mode `bridge` to `ap bridge`. If we miss this setting only one peer can connect via WiFi.
+  * WebFig -> Interfaces -> wlan1 -> Wireless -> Mode: `ap bridge`
+* set `outdoor` installation so only outdoor channels will be used:
+  * WebFig -> Interfaces -> wlan1 -> Wireless -> Installation: outdoor
+* configure NTP client
+  * WebFig -> System -> SNTP Client
 
 
-== RouterOS - LHG specific
+
+
+
+
+
+
+
+
+
+
+
+### Mikrotik LHG 5 ac
 
 * You can reset the configuration by pressing and hold *Reset* Button and powering on the device at the same time. Hold the button until the second LED begins to blink constantly. Then release the *Reset* Button. After 2min you should be able to connect to the device via 192.168.88.1/24.
 
@@ -94,3 +102,47 @@ You should now be able to ping FREE_IP_IN_YOUR_HOME_NETWORK.
   * copy config backup file to access point via ftp or sftp
   * log in via SSH and then execute
     * /system reset-configuration run-after-reset=config.txt
+
+Note: LHG device is intended for outdoor bridge. Therefore you have the following restrictions:
+* no indoor channel can be configured
+* normal AccessPoint mode is not possible (would need RouterOS license level 4)
+
+
+## Connect to device (WinBox vs. static IP)
+
+Connecting to a Mikrotik device with factory default configuration is a little bit of pain compared to Ubnt devices. You can choose between two methods:
+
+* WinBox tool (easy to use but extra program to install)
+* dhcp server needed
+
+Mikrotik has a tool called WinBox which is able to connect via Layer2 to Mikrotik devices. The advantage is that no IP addresses are needed. Sadly this tool is a Windows tool. You can use it in Linux and MacOS using Wine.
+
+* Windows: https://mikrotik.com/download
+* MacOS: https://help.mikrotik.com/docs/display/ROS/Winbox#Winbox-RunWinboxonmacOS
+* Linux: https://help.mikrotik.com/docs/display/ROS/Winbox#Winbox-RunWinboxonLinux
+
+If you do *not want to use WinBox* then you need to know how Mikrotik devices fetch IP in factory default configuration. By default the devices try to get an IP via DHCP. Therefore the network must provide a DHCP server and you need to find out which IP address the device was aquiring. If you know the IP you can connect to the web interface *without* SSL, therefore using http://IP_OF_DEVICE.
+
+## Firmware Update (via cable connecting with WinBox)
+
+* Connect a cable from your device (use WAN port if available) to your Internet router.
+* Boot the device with factory configuration.
+* Make sure you are (with your laptop) in the same network.
+* Open WinBox
+* Select device in neighbour list
+* Activate DHCP client on Mikrotik device:
+  * WebFig -> IP -> DHCP client -> add `ether1`
+  * now Internet connection should be available. You can check with `ping 8.8.8.8` in console.
+* check whether new firmware available: `/system package update check-for-updates`
+* if available then download: `/system package update download`
+* reboot to make upgrade available: `/system reboot`
+* (wait for 3min) after reboot
+* now we should see the new firmware version as "upgrade firmware": `/system routerboard print`
+* do upgrade: `/system routerboard upgrade`
+* final reboot: `/system reboot`
+* delete old config (dhcp client config from above) via: `/system reset-configuration`
+
+## Firmware Update (via Wi-Fi connecting with WinBox)
+
+* Connect device as Wi-Fi client to your home network
+* ...todo...

@@ -21,7 +21,6 @@ on-function enable_on_module on-olsr2
 # we need Internet for LoRaWan
 on-function enable_on_module on-openvpn
 
-
 # ER-X has the following ports:
 # eth0 = WAN
 # eth1 = LAN1
@@ -56,22 +55,6 @@ on-function enable_on_module on-openvpn
 # WAN (eth0) is tagged with all VLANs except VLAN 99.
 # All other ports are untagged.
 
-#
-# EdgeSwitch
-#  IP 192.168.5.58/16 ; GW: 192.168.1.245 ; VLAN: 1
-#
-# Port | VLAN | device               | comment
-# -----|------|----------------------|--------
-#    1 | 11   | bridge-z10-db0hro    |
-#    2 | 12   | reserved for bridge  |
-#    3 | 13   | reserved for bridge  |
-#    4 |  1   | general mesh network |
-#    5 |  1   | general mesh network |
-#    6 |  1   | general mesh network |
-#    7 |  1   | general mesh network |
-#    8 | 1-50 | EdgerRouter-X        | trunk port to EdgeRouter-X
-
-
 #configure switching
 # VLAN 1 (preconfigured) -> VLAN 99
 #       network.@switch_vlan[0]=switch_vlan
@@ -104,7 +87,6 @@ uci set network.@switch_vlan[4].device='switch0'
 uci set network.@switch_vlan[4].vlan='5'
 uci set network.@switch_vlan[4].ports='0t 6t'  # transport all mesh VLANs on phy. port eth0/WAN
 uci set network.@switch_vlan[4].vid='13'
-
 
 #fix zones-interface association
 #reset zone wan
@@ -154,7 +136,6 @@ uci set olsrd.@Interface[-1].interface="on_eth_${ON_ID}"
 uci set olsrd.@Interface[-1].ignore='0'
 
 uci add_list olsrd2.@interface[0].name="on_eth_${ON_ID}"
-
 
 #
 # make connected non-OLSR devices available in mesh network
@@ -220,6 +201,26 @@ uci set firewall.@nat[-1].snat_ip="${ON_IF_IP}"
 uci set firewall.@nat[-1].name="${DEVICE_NAME}"
 uci set firewall.@nat[-1].proto='all'
 
+# bridge-z10-kga - IP: 192.168.5.22/16 ; GW: 192.168.21.245 ; VLAN: 12
+DEVICE_NAME="bridge-z10-kga"
+DEVICE_IP="192.168.5.22"
+ON_IF="on_eth_2"
+ON_IF_IP="192.168.21.245"
+uci add olsrd Hna4
+uci set olsrd.@Hna4[-1].netmask='255.255.255.255'
+uci set olsrd.@Hna4[-1].netaddr="${DEVICE_IP}"
+uci add network route
+uci set network.@route[-1].target="${DEVICE_IP}"
+uci set network.@route[-1].netmask='255.255.255.255'
+uci set network.@route[-1].interface="${ON_IF}"
+uci add firewall nat
+uci set firewall.@nat[-1].src='on_mesh'
+uci set firewall.@nat[-1].target='SNAT'
+uci set firewall.@nat[-1].dest_ip="${DEVICE_IP}"
+uci set firewall.@nat[-1].snat_ip="${ON_IF_IP}"
+uci set firewall.@nat[-1].name="${DEVICE_NAME}"
+uci set firewall.@nat[-1].proto='all'
+
 uci commit
 
 # enable NTP server so Mikrotik Router has time source
@@ -228,5 +229,3 @@ uci commit
 /etc/init.d/sysntpd restart
 
 #todo ssh cert
-
-
