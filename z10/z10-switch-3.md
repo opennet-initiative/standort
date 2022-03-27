@@ -5,7 +5,7 @@ Device: EdgeSwitch
 Port | VLAN | PoE | device                     | comment
 -----|------|-----|----------------------------|--------
    1 | 11   | on  | bridge-z10-db0hro          |  
-   2 | 12   | on  | reserved for bridge        |
+   2 | 12   | on  | bridge-z10-kga             |
    3 | 13   | on  | reserved for bridge        |
    4 |  1   | on  | reserved for mesh node     |
    5 |  1   | on  | reserved for mesh node     |
