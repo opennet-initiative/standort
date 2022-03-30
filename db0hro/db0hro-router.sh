@@ -19,7 +19,7 @@ opkg-oni install on-monitoring
 on-function enable_on_module on-olsr2
 
 # set IP
-on-function set_opennet_id 5.52
+on-function set_opennet_id 3.90
 
 # ER-X has the following ports:
 # eth0 = WAN
@@ -92,7 +92,7 @@ uci add firewall nat
 uci set firewall.@nat[0].src='on_mesh'
 uci set firewall.@nat[0].target='SNAT'
 uci set firewall.@nat[0].dest_ip='192.168.5.53'
-uci set firewall.@nat[0].snat_ip='192.168.5.52'  # via on_eth_0
+uci set firewall.@nat[0].snat_ip='192.168.3.90'  # via on_eth_0
 uci set firewall.@nat[0].name='bridge-bauamt'  # todo change to 'bridge-z10'
 uci set firewall.@nat[0].proto='all'
 uci add firewall nat
@@ -100,7 +100,7 @@ uci set firewall.@nat[1].src='on_mesh'
 uci set firewall.@nat[1].name='bridge-warnemuende'
 uci set firewall.@nat[1].target='SNAT'
 uci set firewall.@nat[1].dest_ip='192.168.5.54'
-uci set firewall.@nat[1].snat_ip='192.168.15.52'  # via on_eth_1
+uci set firewall.@nat[1].snat_ip='192.168.13.90'  # via on_eth_1
 uci set firewall.@nat[1].proto='all'
 
 
