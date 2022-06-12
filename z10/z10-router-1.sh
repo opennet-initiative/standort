@@ -61,13 +61,13 @@ on-function enable_on_module on-openvpn
 #       network.@switch_vlan[0].device='switch0'
 #       network.@switch_vlan[0].vlan='1'
 uci set network.@switch_vlan[0].vid='99'  # change default VLAN ID for LAN
-uci set network.@switch_vlan[0].ports='3 4 6t'
+uci set network.@switch_vlan[0].ports='2 3 4 6t'
 uci set network.lan.ifname='eth0.99'  # VLAN 1 is part of lan bridge therefore we need to change this too
 # VLAN 2 (preconfigured) -> VLAN 1
 #       network.@switch_vlan[1]=switch_vlan
 #       network.@switch_vlan[1].device='switch0'
 #       network.@switch_vlan[1].vlan='2'
-uci set network.@switch_vlan[1].ports='0t 1 2 6t'  # transport all mesh VLANs on phy. port eth0/WAN
+uci set network.@switch_vlan[1].ports='0t 1 6t'  # transport all mesh VLANs on phy. port eth0/WAN
 uci set network.@switch_vlan[1].vid='1'  # change default VLAN ID
 # VLAN 11 (new)
 uci add network switch_vlan
